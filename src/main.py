@@ -1,6 +1,6 @@
 
 import sys,string,random,binascii
-
+from Crypto import Random
 def encrypt():
     secret_key = get_key()
     plain_text = get_text()
@@ -24,16 +24,13 @@ def decrypt():
     return f.write(result)
 
 def key_generator():
-    lamb = input('How many bits do you want it to be? ')
-    chars = int(lamb)/int(8)
-    f= open("./data/newkey.txt","w+")
-    if type(chars) is float:
-        random_key = ''.join([random.choice(string.ascii_letters + string.digits) for n in range(int(chars))])
-        print(random_key)
-        f.write(random_key)
-    else:
-        f.write('')
-        raise TypeError('needs to be type float')
+    rndfile = Random.new()
+    rndfile.read(16)
+    print(rndfile)
+    key = ''.join(chr(random.randint(0, 0xFF)) for i in range(16))
+    f= open("./data/result.txt","w+")
+    print(key)
+    return f.write(key)
     
 
 def get_key():
